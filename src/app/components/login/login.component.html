@@ -1,0 +1,48 @@
+<div class="col-md-6 offset-md-3 mt-5">
+  <div class="alert alert-info">
+    Usuario: eve.holt@reqres.in <br>
+    Contraseña: cityslicka
+  </div>
+  <form [formGroup]="this.loginForm"
+        (ngSubmit)="this.submitForm()">
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Email</label>
+      <input type="email"
+              formControlName="username"
+              class="form-control is-invalid"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+              placeholder="Introduce tu email"
+              [ngClass]="{'is-invalid': this.loginForm.controls.username.errors}">
+      <div id="emailHelp" class="form-text text-muted">Escribe tu email.</div>
+      <div class="invalid-feedback" *ngIf="enviado && this.loginForm.controls.username.errors?.email">Esto no es un email</div>
+      <div class="invalid-feedback" *ngIf="enviado && this.loginForm.controls.username.errors?.required">¡Tienes que rellenar este campo!</div>
+      <!-- <div>{{this.loginForm.controls.username.errors | json}}</div> -->
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+      <input type="password"
+             formControlName="password"
+             class="form-control is-invalid"
+             id="exampleInputPassword1"
+             aria-describedby="passwordHelp"
+             placeholder="Introduce tu email"
+             [ngClass]="{'is-invalid': this.loginForm.controls.password.errors}">
+    </div>
+    <div class="invalid-feedback" *ngIf="enviado && this.loginForm.controls.password.errors?.required">¡Tienes que rellenar este campo!</div>
+    <div class="mb-3">
+      <div class="col-md-12 mt-4">
+        <label class="form-label alert alert-danger col-md-12"
+              *ngIf="this.error"
+               for="error"
+               role="alert">
+               {{this.msgError}}
+          </label>
+        </div>
+    </div>
+    <button [disabled]="this.isLoading" type="submit" class="btn btn-primary">
+      <span *ngIf="this.isLoading" class="spinner-border spinner-border-sm mr-1"></span>
+      Iniciar sesión
+    </button>
+  </form>
+</div>

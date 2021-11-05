@@ -1,18 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ImagesComponent } from './images/images.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
   declarations: [
-
+    ImagesComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,
     NgbCarouselModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class ComponentsModule { }
