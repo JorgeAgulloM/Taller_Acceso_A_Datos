@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { InterceptorsModule } from './interceptors/interceptors.module';
 import { ServicesModule } from './services/services.module';
 import { GuardsModule } from './guards/guards.module';
+import { AuthHttpInterceptor } from './interceptors/auth-http.interceptor';
 
 
 @NgModule({
@@ -28,7 +29,7 @@ import { GuardsModule } from './guards/guards.module';
     GuardsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,3 +1,4 @@
+import { LoginModel } from './../model/login.model';
 import { Injectable } from '@angular/core';
 import {
   HttpRequest,
@@ -7,13 +8,33 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LoginService } from '../services/login.service';
+import { finalize, tap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthHttpInterceptor implements HttpInterceptor {
 
-  constructor(private loginService: LoginService) {}
+  usuario!: LoginModel | null
+  token!: string | undefined
+
+  constructor(private loginService: LoginService) {
+    this.loginService.login.subscribe( usuario => {
+      this.usuario = usuario;
+      this.token = this.usuario?.token
+    })
+
+  }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    return next.handle(request);
+    if(this.token !== undefined){
+      request = request.clone({
+        setHeaders: {
+          Authorizatacion: `Basic ${this.token}`
+        }
+      })
+    }
+
+    return next.handle(request).pipe(tap( e=>{}), finalize( ()=> {
+      console.log(request.url + `(metodo ${request.method} ha finalizaxo)`)
+    })); //tap encadena algo pero termina ahí
   }
 }
